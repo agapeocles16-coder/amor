@@ -1,0 +1,346 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<title>Nuestra Historia 💖</title>
+
+<style>
+body{
+  margin:0;
+  background:black;
+  font-family:'Segoe Script', cursive;
+  color:white;
+  overflow:hidden;
+}
+
+/* SECCIONES */
+.section{
+  position:absolute;
+  inset:0;
+  display:flex;
+  flex-direction:column;
+  justify-content:center;
+  align-items:center;
+  opacity:0;
+  transition:opacity 1.5s ease;
+  pointer-events:none;
+}
+.section.active{
+  opacity:1;
+  pointer-events:auto;
+}
+
+/* FLOTANTES */
+.floating{
+  position:absolute;
+  font-size:20px;
+  opacity:0.85;
+  animation:float 14s linear infinite;
+  white-space:nowrap;
+}
+@keyframes float{
+  from{transform:translateY(110vh);}
+  to{transform:translateY(-10vh);}
+}
+
+/* CANDADO */
+.lock{font-size:110px;}
+.heart{
+  font-size:200px;
+  color:#ff4d6d;
+  animation:latir 2s infinite, flotar 4s infinite;
+}
+@keyframes latir{
+  0%,100%{transform:scale(1);}
+  50%{transform:scale(1.15);}
+}
+@keyframes flotar{
+  0%,100%{transform:translateY(0);}
+  50%{transform:translateY(-20px);}
+}
+
+.selects{display:flex;gap:12px;}
+select{
+  padding:10px;
+  border-radius:10px;
+  border:none;
+}
+button{
+  margin-top:15px;
+  padding:10px 30px;
+  border:none;
+  border-radius:25px;
+  background:#ff4d6d;
+  color:white;
+  font-size:18px;
+  cursor:pointer;
+}
+
+/* TITULOS */
+.title{
+  margin-bottom:30px;
+  font-size:48px;
+  color:#ffb3c6;
+  text-shadow:0 0 15px pink;
+}
+
+/* FOTOS */
+.photos{display:flex;gap:40px;}
+.photo{
+  width:220px;
+  height:330px;
+  perspective:1000px;
+}
+.photo img{
+  width:100%;
+  height:100%;
+  object-fit:cover;
+  border-radius:20px;
+  box-shadow:0 0 30px pink;
+  animation:rotate360 10s linear infinite;
+}
+@keyframes rotate360{
+  from{transform:rotateY(0deg);}
+  to{transform:rotateY(360deg);}
+}
+
+/* NOTAS */
+.notes{
+  max-width:700px;
+  max-height:420px;   /* altura visible */
+  overflow-y:auto;    /* scroll vertical */
+  background:rgba(255,255,255,0.1);
+  padding:25px 35px;
+  border-radius:20px;
+  box-shadow:0 0 25px pink;
+  font-size:18px;
+}
+
+}
+.notes ol{text-align:left;}
+.notes li{margin-bottom:10px;}
+
+/* CARTA GRANDE */
+.envelope{
+  position:relative;
+  width:700px;
+  height:450px;
+  cursor:pointer;
+}
+.envelope .body{
+  width:100%;
+  height:100%;
+  background:#ffb3c6;
+  border-radius:0 0 25px 25px;
+}
+.envelope .top{
+  position:absolute;
+  top:0;
+  width:100%;
+  height:100%;
+  background:#ff4d6d;
+  clip-path:polygon(0 0,100% 0,50% 50%);
+  transform-origin:top;
+  transition:transform 1s;
+}
+.envelope.open .top{
+  transform:rotateX(180deg);
+}
+.letter-text{
+  position:absolute;
+  inset:15px;
+  background:white;
+  color:black;
+  padding:25px;
+  border-radius:20px;
+  opacity:0;
+  transition:opacity 1s;
+  font-size:18px;
+  line-height:1.5;
+}
+.envelope.open .letter-text{opacity:1;}
+
+/* FINAL */
+.final-heart{
+  font-size:120px;
+  animation:latir 2s infinite;
+  cursor:pointer;
+}
+.mini-heart{
+  position:absolute;
+  color:#ff4d6d;
+  font-size:20px;
+  animation:explode 2s ease-out forwards;
+}
+@keyframes explode{
+  from{opacity:1;transform:translate(0,0) scale(1);}
+  to{opacity:0;transform:translate(var(--x),var(--y)) scale(0.5);}
+}
+</style>
+</head>
+
+<body>
+
+<audio id="music" loop>
+  <source src="musica.mp3" type="audio/mpeg">
+</audio>
+
+<!-- CANDADO -->
+<div class="section active" id="lockSection">
+  <div class="heart">❤️</div>
+  <div class="Nombre del Chico"> Para Henri</div>
+  <p>Nuestra fecha especial</p>
+  <div class="selects">
+    <select id="dia"></select>
+    <select id="mes"></select>
+    <select id="anio"></select>
+  </div>
+  <button onclick="verificar()">Abrir 💘</button>
+</div>
+
+<!-- FOTOS -->
+<div class="section" id="photoSection">
+  <h1 class="title">⭐ ❤️ 𝓝𝓤𝓔𝓢𝓣𝓡𝓞𝓢 𝓡𝓔𝓒𝓤𝓔𝓡𝓓𝓞𝓢 ❤️ ⭐</h1>
+  <div class="photos">
+    <div class="photo"><img src="foto1.jpeg"></div>
+    <div class="photo"><img src="foto2.jpeg"></div>
+    <div class="photo"><img src="foto3.jpeg"></div>
+  </div>
+  <button onclick="showSection('notesSection')">📝</button>
+</div>
+
+<!-- NOTAS -->
+<div class="section" id="notesSection">
+  <h1 class="title">📝 20 razones por las que te amo 💖</h1>
+  <div class="notes">
+    <ol>
+      <li>Porque eres mi lugar seguro.</li>
+      <li>Porque tu sonrisa ilumina mis días.</li>
+      <li>Porque me haces sentir amada.</li>
+      <li>Porque contigo soy yo misma.</li>
+      <li>Porque siempre estás para mí.</li>
+      <li>Porque tu risa es mi sonido favorito.</li>
+      <li>Porque haces especial lo simple.</li>
+      <li>Porque confías en mí.</li>
+      <li>Porque me inspiras.</li>
+      <li>Porque tus abrazos sanan.</li>
+      <li>Porque me aceptas.</li>
+      <li>Porque contigo el tiempo vuela.</li>
+      <li>Porque haces mi vida más bonita.</li>
+      <li>Porque me entiendes sin hablar.</li>
+      <li>Porque eres mi mejor decisión.</li>
+      <li>Porque contigo quiero todo.</li>
+      <li>Porque eres mi paz.</li>
+      <li>Porque eres mi alegría.</li>
+      <li>Porque eres mi amor verdadero.</li>
+      <li>Porque eres tú 💖</li>
+    </ol>
+  </div>
+  <button onclick="showSection('timeSection')">⏳</button>
+</div>
+
+<!-- CONTADOR -->
+<div class="section" id="timeSection">
+  <h1 class="title">Nuestro tiempo juntos ⏳</h1>
+  <h2 id="contador"></h2>
+  <button onclick="showSection('letterSection')">💌</button>
+</div>
+
+<!-- CARTA -->
+<div class="section" id="letterSection">
+  <div class="envelope" onclick="openLetter()">
+    <div class="top"></div>
+    <div class="body"></div>
+    <div class="letter-text">
+      <h2>Para Henri ❤️</h2>
+      <p>
+        Gracias, gracias por llegar a mi vida por darle alegria,
+                  por ser la persona que eres conmigo, por enamorarme de
+                 la forma en la que lo haces, por ser quien eres, y pensar
+                  de la forma que piensas, por que ha pesar de que te he 
+                 fallado sigues aqui conmigo. Gracias por ese comienzo
+                 y por todos nestros momentos, Te amo, te amo y no te puedo
+                 decir cuanto por que eso no se puede expresar, seria
+                 demaciado corto para lo que siento, son 2 años y por 
+                 fin puedo decir que no me arrepiento, mi vida 
+                                                            TE AMO ❤️💖
+
+      </p>
+      <button onclick="showSection('finalSection')">✨</button>
+    </div>
+  </div>
+</div>
+
+<!-- FINAL -->
+<div class="section" id="finalSection">
+  <h1 style="font-size:70px;color:#ff4d6d;text-shadow:0 0 25px pink;">
+    TE AMO
+  </h1>
+  <div class="final-heart" onclick="explodeHearts(this)">❤️</div>
+</div>
+
+<script>
+const flotantes=["❤️","⭐","✦","✨","Te amo 💖","Eres mi todo ❤️","Para siempre 💫"];
+for(let i=0;i<45;i++){
+  let f=document.createElement("div");
+  f.className="floating";
+  f.innerText=flotantes[Math.floor(Math.random()*flotantes.length)];
+  f.style.left=Math.random()*100+"vw";
+  f.style.animationDuration=(8+Math.random()*8)+"s";
+  document.body.appendChild(f);
+}
+
+for(let i=1;i<=31;i++) dia.innerHTML+=`<option>${String(i).padStart(2,"0")}</option>`;
+for(let i=1;i<=12;i++) mes.innerHTML+=`<option>${String(i).padStart(2,"0")}</option>`;
+for(let i=1990;i<=2030;i++) anio.innerHTML+=`<option>${i}</option>`;
+
+const fechaCorrecta="05/02/2024";
+const inicioRelacion=new Date("2024-02-05");
+
+function verificar(){
+  const fecha=`${dia.value}/${mes.value}/${anio.value}`;
+  if(fecha===fechaCorrecta){
+    music.play();
+    showSection("photoSection");
+  }else alert("Esa no es nuestra fecha 💔");
+}
+
+function showSection(id){
+  document.querySelectorAll(".section").forEach(s=>s.classList.remove("active"));
+  document.getElementById(id).classList.add("active");
+}
+
+function openLetter(){
+  document.querySelector(".envelope").classList.add("open");
+}
+
+setInterval(()=>{
+  let d=new Date()-inicioRelacion;
+  let s=Math.floor(d/1000);
+  let m=Math.floor(s/60);
+  let h=Math.floor(m/60);
+  let days=Math.floor(h/24);
+  let mo=Math.floor(days/30);
+  let y=Math.floor(mo/12);
+  contador.innerHTML=
+  `${y} años 💖 ${mo%12} meses ✨ ${days%30} días<br>
+   ${h%24} horas ⏰ ${m%60} minutos ⏳ ${s%60} segundos ❤️`;
+},1000);
+
+function explodeHearts(el){
+  for(let i=0;i<25;i++){
+    let h=document.createElement("div");
+    h.className="mini-heart";
+    h.innerText="❤️";
+    h.style.setProperty("--x",(Math.random()*200-100)+"px");
+    h.style.setProperty("--y",(Math.random()*200-100)+"px");
+    h.style.left=el.offsetLeft+"px";
+    h.style.top=el.offsetTop+"px";
+    document.body.appendChild(h);
+    setTimeout(()=>h.remove(),2000);
+  }
+}
+</script>
+
+</body>
+</html>
